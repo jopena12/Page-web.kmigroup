@@ -1,112 +1,654 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KMI Group — Studio, digital et outils intelligents</title>
-  <meta name="description" content="KMI Group réunit trois métiers depuis l'Aude : Studio By KM (photographie), Web By KMI (création de sites web) et Build By KMI (outils logiciels).">
-  <meta property="og:title" content="KMI Group — Studio, digital et outils intelligents">
-  <meta property="og:description" content="Trois métiers, une même exigence du détail — pensés et construits depuis l'Aude.">
-  <meta property="og:type" content="website">
-  <meta name="theme-color" content="#07030F">
-  <link rel="icon" href="assets/kmi-icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="assets/kmi-icon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web By KMI — Sites web pour indépendants & PME</title>
+<meta name="description" content="Sites WordPress rapides, bien référencés localement, conçus pour les indépendants, artisans et petites entreprises. Devis sous 48h.">
+<meta name="theme-color" content="#0F2544">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+  :root{
+    --navy:#0F2544;
+    --navy-light:#1C3D6B;
+    --teal:#0E9C77;
+    --teal-dark:#0B7259;
+    --teal-light:#5AD1A8;
+    --ink:#151822;
+    --gray-700:#4B5163;
+    --gray-500:#767D90;
+    --gray-300:#D8DCE3;
+    --gray-200:#E7EAEF;
+    --gray-100:#F1F3F6;
+    --gray-50:#F8F9FB;
+    --white:#fff;
+    --radius:14px;
+    --radius-lg:20px;
+    --shadow-sm: 0 1px 2px rgba(15,37,68,0.05), 0 1px 3px rgba(15,37,68,0.06);
+    --shadow-md: 0 10px 26px -8px rgba(15,37,68,0.16), 0 2px 6px rgba(15,37,68,0.06);
+    --shadow-lg: 0 28px 56px -16px rgba(15,37,68,0.26);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--white);
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  a{ color:inherit; }
+
+  .grain{
+    position:fixed; inset:0; z-index:200; pointer-events:none;
+    opacity:0.02; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *,*::before,*::after{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+
+  [data-reveal]{
+    opacity:0; transform:translateY(20px);
+    transition:opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    transition-delay:var(--reveal-delay, 0s);
+  }
+  [data-reveal].is-visible{ opacity:1; transform:translateY(0); }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(255,255,255,0.88);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--gray-200);
+    padding:0 1.5rem;
+    height:68px;
+    display:flex; align-items:center; justify-content:space-between;
+    transition:box-shadow 0.3s var(--ease);
+  }
+  nav.is-scrolled{ box-shadow:var(--shadow-sm); }
+  .nav-inner{ max-width:1080px; margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between; }
+  .nav-logo{
+    font-weight:700; font-size:17px;
+    text-decoration:none; color:var(--ink);
+    display:flex; align-items:center; gap:10px;
+    font-family:'Fraunces',serif;
+    letter-spacing:-0.01em;
+  }
+  .nav-logo .mark{
+    width:32px; height:32px; border-radius:9px;
+    background:linear-gradient(135deg, var(--navy), var(--navy-light));
+    color:#fff; font-size:14px; font-weight:600;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:var(--shadow-sm);
+  }
+  .nav-links{ display:flex; align-items:center; gap:2rem; }
+  .nav-link{ position:relative; font-size:14.5px; font-weight:500; color:var(--gray-700); text-decoration:none; padding:4px 0; }
+  .nav-link::after{
+    content:''; position:absolute; left:0; right:0; bottom:-2px; height:1.5px;
+    background:var(--teal); transform:scaleX(0); transform-origin:left;
+    transition:transform 0.3s var(--ease);
+  }
+  .nav-link:hover{ color:var(--navy); }
+  .nav-link:hover::after{ transform:scaleX(1); }
+  .nav-cta{
+    background:linear-gradient(135deg, var(--navy), var(--navy-light));
+    color:#fff;
+    padding:10px 20px;
+    border-radius:9px;
+    font-size:14.5px; font-weight:600;
+    text-decoration:none;
+    box-shadow:var(--shadow-sm);
+    transition:transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    display:inline-block;
+  }
+  .nav-cta:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+  @media (max-width:720px){ .nav-links{ display:none; } }
+
+  /* HERO */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(ellipse 900px 480px at 50% -12%, rgba(14,156,119,0.09), transparent 62%),
+      radial-gradient(ellipse 700px 420px at 100% -5%, rgba(15,37,68,0.06), transparent 60%),
+      var(--white);
+    padding:6rem 1.5rem 4.5rem;
+    border-bottom:1px solid var(--gray-200);
+    overflow:hidden;
+  }
+  .hero-inner{ position:relative; z-index:2; max-width:760px; margin:0 auto; text-align:center; }
+
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--white);
+    border:1px solid var(--gray-200);
+    border-radius:100px;
+    padding:7px 15px;
+    font-size:13.5px; font-weight:500;
+    color:var(--gray-700);
+    margin-bottom:2rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .hero-badge .dot{ width:7px; height:7px; border-radius:50%; background:var(--teal); display:inline-block; box-shadow:0 0 0 3px rgba(14,156,119,0.15); }
+
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-size:clamp(2.3rem,5.4vw,3.6rem);
+    font-weight:600;
+    line-height:1.14;
+    letter-spacing:-0.02em;
+    color:var(--navy);
+    margin-bottom:1.4rem;
+  }
+  .hero h1 .accent{
+    font-style:italic;
+    background:linear-gradient(100deg, var(--teal-dark), var(--teal) 60%, var(--navy-light));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  .hero p{
+    font-size:1.15rem;
+    color:var(--gray-700);
+    max-width:540px;
+    margin:0 auto 2.4rem;
+  }
+
+  .hero-actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:2.75rem; }
+
+  .btn-primary{
+    background:linear-gradient(135deg, var(--navy), var(--navy-light));
+    color:#fff;
+    padding:14px 27px;
+    border-radius:9px;
+    font-weight:600; font-size:15px;
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    display:inline-block;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+
+  .btn-secondary{
+    background:var(--white);
+    color:var(--ink);
+    padding:14px 27px;
+    border-radius:9px;
+    font-weight:600; font-size:15px;
+    text-decoration:none;
+    border:1px solid var(--gray-300);
+    transition:border-color 0.3s var(--ease), background 0.3s var(--ease), transform 0.3s var(--ease);
+    display:inline-block;
+  }
+  .btn-secondary:hover{ background:var(--gray-50); border-color:var(--gray-500); transform:translateY(-2px); }
+
+  .hero-trust{
+    display:flex; align-items:center; justify-content:center; gap:2rem;
+    flex-wrap:wrap;
+    font-size:13.5px; color:var(--gray-500);
+  }
+  .hero-trust span{ display:flex; align-items:center; gap:7px; }
+  .hero-trust svg{ width:16px; height:16px; color:var(--teal); flex-shrink:0; }
+
+  /* STATS STRIP */
+  .stats-strip{
+    background:linear-gradient(135deg, var(--navy), var(--navy-light));
+    padding:3rem 1.5rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .stats-strip::before{
+    content:'';
+    position:absolute; inset:0;
+    background:radial-gradient(600px 300px at 15% 0%, rgba(90,209,168,0.16), transparent 60%);
+    pointer-events:none;
+  }
+  .stats-inner{
+    position:relative; z-index:1;
+    max-width:1080px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(3,1fr);
+    text-align:center;
+  }
+  .stats-inner > div{ position:relative; }
+  .stats-inner > div + div::before{
+    content:''; position:absolute; left:0; top:8px; bottom:8px; width:1px;
+    background:rgba(255,255,255,0.14);
+  }
+  .stat-num{ font-family:'Fraunces',serif; font-size:2.3rem; font-weight:600; color:#fff; line-height:1; margin-bottom:8px; }
+  .stat-num .unit{ color:var(--teal-light); }
+  .stat-label{ font-size:13.5px; color:rgba(255,255,255,0.62); }
+  @media (max-width:640px){
+    .stats-inner{ grid-template-columns:1fr; gap:1.75rem; }
+    .stats-inner > div + div::before{ display:none; }
+  }
+
+  /* SECTION */
+  section{ padding:5.5rem 1.5rem; }
+  .section-inner{ max-width:1080px; margin:0 auto; }
+  .section-narrow{ max-width:760px; margin:0 auto; }
+
+  .eyebrow{
+    font-size:13px; font-weight:600;
+    color:var(--teal-dark);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:0.85rem;
+    display:block;
+    text-align:center;
+  }
+  .section-h2{
+    font-family:'Fraunces',serif;
+    font-size:clamp(1.8rem,3.2vw,2.4rem);
+    font-weight:600;
+    color:var(--navy);
+    letter-spacing:-0.015em;
+    text-align:center;
+    margin-bottom:0.9rem;
+  }
+  .section-sub{
+    text-align:center;
+    color:var(--gray-700);
+    max-width:520px;
+    margin:0 auto 3.75rem;
+    font-size:1.05rem;
+  }
+
+  /* OFFER CARDS */
+  .offers-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:26px;
+    max-width:780px;
+    margin:0 auto 1.75rem;
+  }
+
+  .offer-card{
+    background:var(--white);
+    border:1px solid var(--gray-200);
+    border-radius:var(--radius-lg);
+    padding:2.1rem;
+    box-shadow:var(--shadow-sm);
+    position:relative;
+    transition:transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+  }
+  .offer-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:var(--gray-300); }
+
+  .offer-card.featured{
+    border:2px solid var(--navy);
+    box-shadow:var(--shadow-md);
+  }
+  .offer-card.featured:hover{ box-shadow:var(--shadow-lg); }
+
+  .offer-badge{
+    position:absolute; top:-13px; left:24px;
+    background:linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color:#fff;
+    font-size:12px; font-weight:600;
+    padding:5px 13px;
+    border-radius:100px;
+    box-shadow:var(--shadow-sm);
+  }
+
+  .offer-name{ font-family:'Fraunces',serif; font-size:1.15rem; font-weight:600; color:var(--ink); margin-bottom:0.55rem; letter-spacing:-0.01em; }
+  .offer-desc{ font-size:14.5px; color:var(--gray-700); margin-bottom:1.6rem; min-height:44px; }
+
+  .offer-price-row{ display:flex; align-items:baseline; gap:7px; margin-bottom:1.6rem; }
+  .offer-price{ font-family:'Fraunces',serif; font-size:2.5rem; font-weight:600; color:var(--navy); }
+  .offer-unit{ font-size:14px; color:var(--gray-500); }
+
+  .offer-features{ list-style:none; font-size:14.5px; }
+  .offer-features li{
+    padding:9px 0;
+    display:flex; align-items:flex-start; gap:11px;
+    color:var(--gray-700);
+    border-top:1px solid var(--gray-200);
+  }
+  .offer-features li:first-child{ border-top:none; }
+  .check-dot{
+    width:18px; height:18px; border-radius:50%;
+    background:rgba(14,156,119,0.12);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .check-dot svg{ width:11px; height:11px; color:var(--teal-dark); }
+
+  /* MONTHLY */
+  .monthly-card{
+    max-width:780px; margin:0 auto;
+    background:var(--gray-50);
+    border:1px solid var(--gray-200);
+    border-radius:var(--radius-lg);
+    padding:2.1rem 2.4rem;
+    display:flex; align-items:center; gap:2rem; flex-wrap:wrap;
+    transition:box-shadow 0.4s var(--ease);
+  }
+  .monthly-card:hover{ box-shadow:var(--shadow-md); }
+  .monthly-price-block{ flex-shrink:0; text-align:left; }
+  .monthly-price{ font-family:'Fraunces',serif; font-size:2.5rem; font-weight:600; color:var(--teal-dark); line-height:1; }
+  .monthly-unit{ font-size:13.5px; color:var(--gray-500); margin-top:5px; }
+  .monthly-body{ flex:1; min-width:240px; }
+  .monthly-title{ font-weight:600; font-size:1.05rem; margin-bottom:0.7rem; color:var(--ink); }
+  .monthly-list{ list-style:none; font-size:14px; color:var(--gray-700); display:flex; flex-wrap:wrap; gap:10px 22px; }
+  .monthly-list li{ display:flex; align-items:center; gap:8px; }
+  .monthly-list .check-dot{ width:16px; height:16px; }
+  .monthly-list .check-dot svg{ width:9.5px; height:9.5px; }
+  @media (max-width:600px){ .monthly-card{ flex-direction:column; align-items:flex-start; } }
+
+  /* PROCESS */
+  .process-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    gap:2.25rem;
+    max-width:1080px; margin:0 auto;
+    position:relative;
+  }
+  .process-step{ text-align:left; position:relative; }
+  .process-num-badge{
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-weight:600; font-size:15px; color:#fff;
+    background:linear-gradient(135deg, var(--navy), var(--navy-light));
+    margin-bottom:1.1rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .process-step:nth-child(2) .process-num-badge{ background:linear-gradient(135deg, var(--teal), var(--teal-dark)); }
+  .process-step:nth-child(3) .process-num-badge{ background:linear-gradient(135deg, var(--navy-light), var(--navy)); }
+  .process-step:nth-child(4) .process-num-badge{ background:linear-gradient(135deg, var(--gray-500), var(--gray-700)); }
+  .process-title{ font-weight:600; font-size:1.08rem; margin-bottom:0.55rem; color:var(--ink); }
+  .process-desc{ font-size:14.5px; color:var(--gray-700); line-height:1.6; }
+
+  /* TRUST GRID */
+  .trust-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+    gap:22px;
+    max-width:1080px; margin:0 auto;
+  }
+  .trust-card{
+    background:var(--white);
+    border:1px solid var(--gray-200);
+    border-radius:var(--radius);
+    padding:1.85rem;
+    transition:transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .trust-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-md); }
+  .trust-icon{
+    width:42px; height:42px; border-radius:11px;
+    background:linear-gradient(135deg, rgba(15,37,68,0.07), rgba(14,156,119,0.09));
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:1.1rem;
+  }
+  .trust-icon svg{ width:20px; height:20px; color:var(--navy); }
+  .trust-title{ font-weight:600; font-size:1.02rem; margin-bottom:0.45rem; color:var(--ink); }
+  .trust-desc{ font-size:14px; color:var(--gray-700); line-height:1.6; }
+
+  /* CTA FINAL */
+  .cta-section{ background:var(--gray-50); border-top:1px solid var(--gray-200); }
+  .cta-box{
+    position:relative;
+    background:linear-gradient(135deg, var(--navy), var(--navy-light));
+    border-radius:22px;
+    padding:3.75rem 2.5rem;
+    text-align:center;
+    max-width:760px;
+    margin:0 auto;
+    overflow:hidden;
+  }
+  .cta-box::before{
+    content:'';
+    position:absolute; inset:0;
+    background:radial-gradient(500px 260px at 80% 0%, rgba(90,209,168,0.18), transparent 60%);
+    pointer-events:none;
+  }
+  .cta-box > *{ position:relative; z-index:1; }
+  .cta-box h2{ font-family:'Fraunces',serif; font-size:clamp(1.8rem,3.6vw,2.4rem); font-weight:600; color:#fff; margin-bottom:0.9rem; letter-spacing:-0.015em; }
+  .cta-box p{ color:rgba(255,255,255,0.68); margin-bottom:2.1rem; font-size:1.05rem; }
+  .btn-white{
+    background:linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color:#fff;
+    padding:15px 31px;
+    border-radius:9px;
+    font-weight:600; font-size:15px;
+    text-decoration:none;
+    display:inline-block;
+    box-shadow:0 12px 28px -8px rgba(11,114,89,0.5);
+    transition:transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  }
+  .btn-white:hover{ transform:translateY(-2px); box-shadow:0 18px 36px -8px rgba(11,114,89,0.6); }
+
+  /* FOOTER */
+  footer{
+    padding:2.75rem 1.5rem;
+    text-align:center;
+    border-top:1px solid var(--gray-200);
+  }
+  .footer-inner{ max-width:1080px; margin:0 auto; }
+  .footer-logo{ font-family:'Fraunces',serif; font-weight:600; font-size:16px; color:var(--navy); margin-bottom:0.6rem; letter-spacing:-0.01em; }
+  .footer-meta{ font-size:13.5px; color:var(--gray-500); }
+
+  @media (max-width:600px){
+    section{ padding:3.75rem 1.25rem; }
+    .cta-box{ padding:2.75rem 1.5rem; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="grain" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
 
-  <header class="site-header" id="site-header">
-    <div class="brand">
-      <img src="assets/kmi-icon.svg" alt="" width="40" height="40" class="brand-icon">
-      <span class="brand-name">KMI Group</span>
+<nav id="site-nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><span class="mark">W</span>Web By KMI</a>
+    <div class="nav-links">
+      <a href="#offres" class="nav-link">Offres</a>
+      <a href="#methode" class="nav-link">Méthode</a>
+      <a href="#garanties" class="nav-link">Garanties</a>
     </div>
-    <nav class="site-nav" aria-label="Navigation principale">
-      <a href="#studio" class="nav-link nav-link--studio">Studio</a>
-      <a href="#web" class="nav-link nav-link--web">Web</a>
-      <a href="#build" class="nav-link nav-link--build">Build</a>
-    </nav>
-  </header>
+    <a href="mailto:contact@kmigroup.fr" class="nav-cta">Demander un devis</a>
+  </div>
+</nav>
 
-  <main>
-    <section class="hero" data-reveal>
-      <p class="kicker"><span class="kicker-dot" aria-hidden="true"></span>KMI Group</p>
-      <h1>Studio, digital et <em>outils intelligents</em>.</h1>
-      <p class="hero-subtext">Trois métiers, une même exigence du détail — pensés et construits par la même main, depuis l'Aude.</p>
-    </section>
+<div class="hero">
+  <div class="hero-inner" data-reveal>
+    <span class="hero-badge"><span class="dot"></span>Création de sites web en Occitanie</span>
+    <h1>Un site professionnel qui <span class="accent">vous ramène des clients</span></h1>
+    <p>Sites WordPress rapides, bien référencés localement, conçus pour les indépendants, artisans et petites entreprises.</p>
+    <div class="hero-actions">
+      <a href="mailto:contact@kmigroup.fr" class="btn-primary">Demander un devis gratuit</a>
+      <a href="#offres" class="btn-secondary">Voir les tarifs</a>
+    </div>
+    <div class="hero-trust">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Devis sous 48h</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Vous restez propriétaire</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Interlocuteur unique</span>
+    </div>
+  </div>
+</div>
 
-    <div class="beam" aria-hidden="true">
-      <div class="beam-core"></div>
-      <div class="beam-stem"></div>
-      <div class="beam-ray beam-ray--studio"></div>
-      <div class="beam-ray beam-ray--web"></div>
-      <div class="beam-ray beam-ray--build"></div>
-      <div class="beam-node beam-node--studio"></div>
-      <div class="beam-node beam-node--web"></div>
-      <div class="beam-node beam-node--build"></div>
+<div class="stats-strip" data-reveal>
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num">48<span class="unit">h</span></div>
+      <div class="stat-label">Pour recevoir votre devis</div>
+    </div>
+    <div>
+      <div class="stat-num">2<span class="unit"> sem.</span></div>
+      <div class="stat-label">Délai moyen de livraison</div>
+    </div>
+    <div>
+      <div class="stat-num">30<span class="unit">%</span></div>
+      <div class="stat-label">D'acompte, le reste à la livraison</div>
+    </div>
+  </div>
+</div>
+
+<section id="offres" style="scroll-margin-top:68px;">
+  <div class="section-inner">
+    <span class="eyebrow" data-reveal>Tarifs</span>
+    <h2 class="section-h2" data-reveal>Des prix clairs, sans surprise</h2>
+    <p class="section-sub" data-reveal>Deux formules selon votre point de départ, plus un forfait mensuel pour ne plus vous en occuper.</p>
+
+    <div class="offers-grid">
+      <div class="offer-card" data-reveal style="--reveal-delay:0s">
+        <div class="offer-name">Optimisation</div>
+        <p class="offer-desc">Votre site existe mais peine à attirer des clients. On le remet en ordre.</p>
+        <div class="offer-price-row"><span class="offer-price">250€</span><span class="offer-unit">paiement unique</span></div>
+        <ul class="offer-features">
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Audit complet du site existant</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Optimisation vitesse et mobile</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Fiche Google Business Profile</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Mots-clés locaux ciblés</li>
+        </ul>
+      </div>
+
+      <div class="offer-card featured" data-reveal style="--reveal-delay:0.1s">
+        <span class="offer-badge">Le plus choisi</span>
+        <div class="offer-name">Refonte complète</div>
+        <p class="offer-desc">Un site neuf, pensé pour convertir vos visiteurs en clients.</p>
+        <div class="offer-price-row"><span class="offer-price">500€</span><span class="offer-unit">paiement unique</span></div>
+        <ul class="offer-features">
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Conception WordPress sur-mesure</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Rédaction des contenus incluse</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>SEO technique et local</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Formulaire de contact</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Vous restez propriétaire du site</li>
+        </ul>
+      </div>
     </div>
 
-    <section class="cards" aria-label="Nos activités">
-
-      <a id="studio" href="https://studiobykm.com" target="_blank" rel="noopener" class="card card--studio" data-reveal data-tilt style="--reveal-delay: 0s">
-        <div class="card-icon card-icon--studio" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 8.5a1.5 1.5 0 0 1 1.5-1.5h2l1-1.5h7l1 1.5h2A1.5 1.5 0 0 1 20 8.5v8A1.5 1.5 0 0 1 18.5 18h-13A1.5 1.5 0 0 1 4 16.5z"/>
-            <circle cx="12" cy="12.4" r="3.1"/>
-          </svg>
-        </div>
-        <p class="card-eyebrow">Photographie &amp; Photobooth</p>
-        <h3 class="card-title">Studio By KM</h3>
-        <p class="card-body">Photographe professionnel et location de photobooth — mariages, portraits famille, séances boudoir. Raconter l'invisible.</p>
-        <span class="card-link">studiobykm.com <span class="card-arrow">→</span></span>
-      </a>
-
-      <a id="web" href="https://web.kmigroup.fr" target="_blank" rel="noopener" class="card card--web" data-reveal data-tilt style="--reveal-delay: 0.1s">
-        <div class="card-icon card-icon--web" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3.5" y="5" width="17" height="14" rx="2"/>
-            <path d="M3.5 9.3h17"/>
-            <circle cx="6.2" cy="7.15" r="0.55" fill="currentColor" stroke="none"/>
-            <circle cx="8.2" cy="7.15" r="0.55" fill="currentColor" stroke="none"/>
-            <path d="M9.5 13l-2 2 2 2M14.5 13l2 2-2 2"/>
-          </svg>
-        </div>
-        <p class="card-eyebrow">Création de sites web</p>
-        <h3 class="card-title">Web By KMI</h3>
-        <p class="card-body">Sites web sur-mesure pour indépendants et petites entreprises — pensés pour convertir, simples à faire évoluer.</p>
-        <span class="card-link">web.kmigroup.fr <span class="card-arrow">→</span></span>
-      </a>
-
-      <a id="build" href="https://build.kmigroup.fr" target="_blank" rel="noopener" class="card card--build" data-reveal data-tilt style="--reveal-delay: 0.2s">
-        <div class="card-icon card-icon--build" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14.7 6.3a4 4 0 0 0-5.4 4.9L4 16.5 7.5 20l5.3-5.3a4 4 0 0 0 4.9-5.4l-2.6 2.6-2.1-2.1z"/>
-          </svg>
-        </div>
-        <p class="card-eyebrow">Outils &amp; logiciels</p>
-        <h3 class="card-title">Build By KMI</h3>
-        <p class="card-body">Des outils logiciels pensés pour simplifier le quotidien des indépendants et des petites structures.</p>
-        <span class="card-link">build.kmigroup.fr <span class="card-arrow">→</span></span>
-      </a>
-
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-brand">
-      <img src="assets/kmi-icon.svg" alt="" width="20" height="20">
-      <p class="footer-copy">© 2026 KMI Group — Villasavary, Aude</p>
+    <div class="monthly-card" data-reveal>
+      <div class="monthly-price-block">
+        <div class="monthly-price">97€</div>
+        <div class="monthly-unit">par mois, sans engagement</div>
+      </div>
+      <div class="monthly-body">
+        <div class="monthly-title">Forfait maintenance + SEO local</div>
+        <ul class="monthly-list">
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Sauvegardes & sécurité</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Google Business Profile géré</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Publications mensuelles</li>
+          <li><span class="check-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></span>Rapport de suivi mensuel</li>
+        </ul>
+      </div>
     </div>
-    <div class="footer-links">
-      <a href="mentions-legales.html" class="footer-link">Mentions légales</a>
-      <a href="mailto:contact@kmigroup.fr" class="footer-link">Contact</a>
-    </div>
-  </footer>
+  </div>
+</section>
 
-  <script src="js/main.js"></script>
+<section id="methode" style="background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200); scroll-margin-top:68px;">
+  <div class="section-inner">
+    <span class="eyebrow" data-reveal>Méthode</span>
+    <h2 class="section-h2" data-reveal>De zéro à en ligne en 2 semaines</h2>
+    <p class="section-sub" data-reveal>Un processus simple, sans jargon technique, pour ne pas perdre de temps.</p>
+
+    <div class="process-grid">
+      <div class="process-step" data-reveal style="--reveal-delay:0s">
+        <div class="process-num-badge">1</div>
+        <div class="process-title">Échange découverte</div>
+        <p class="process-desc">15 minutes à distance pour comprendre votre activité et vos objectifs.</p>
+      </div>
+      <div class="process-step" data-reveal style="--reveal-delay:0.08s">
+        <div class="process-num-badge">2</div>
+        <div class="process-title">Devis & bon de commande</div>
+        <p class="process-desc">Devis envoyé sous 48h. Acompte de 30% pour démarrer.</p>
+      </div>
+      <div class="process-step" data-reveal style="--reveal-delay:0.16s">
+        <div class="process-num-badge">3</div>
+        <div class="process-title">Conception & validation</div>
+        <p class="process-desc">Vous validez chaque étape avant publication.</p>
+      </div>
+      <div class="process-step" data-reveal style="--reveal-delay:0.24s">
+        <div class="process-num-badge">4</div>
+        <div class="process-title">Mise en ligne</div>
+        <p class="process-desc">Le site est publié, le solde réglé. Vous êtes propriétaire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="garanties" style="scroll-margin-top:68px;">
+  <div class="section-inner">
+    <span class="eyebrow" data-reveal>Garanties</span>
+    <h2 class="section-h2" data-reveal>Ce que vous êtes en droit d'attendre</h2>
+    <p class="section-sub" data-reveal>Des engagements concrets, pas des promesses marketing.</p>
+
+    <div class="trust-grid">
+      <div class="trust-card" data-reveal style="--reveal-delay:0s">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+        <div class="trust-title">Vous êtes propriétaire</div>
+        <p class="trust-desc">Hébergement et nom de domaine à votre nom. Aucune dépendance à notre plate-forme.</p>
+      </div>
+      <div class="trust-card" data-reveal style="--reveal-delay:0.08s">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="trust-title">Une promesse SEO honnête</div>
+        <p class="trust-desc">On ne promet jamais la première place sur Google. On cible votre zone de chalandise réelle.</p>
+      </div>
+      <div class="trust-card" data-reveal style="--reveal-delay:0.16s">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+        <div class="trust-title">Un interlocuteur unique</div>
+        <p class="trust-desc">Vous nous écrivez directement. Pas de support externalisé ni de ticket.</p>
+      </div>
+      <div class="trust-card" data-reveal style="--reveal-delay:0.24s">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.83-2.83L7 14"/></svg></div>
+        <div class="trust-title">Un rapport mensuel lisible</div>
+        <p class="trust-desc">Visites, clics, appels générés — chaque mois, sans jargon technique.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <section>
+    <div class="cta-box" data-reveal>
+      <h2>Prêt à avoir un site qui travaille pour vous ?</h2>
+      <p>Échange gratuit de 15 minutes pour voir si on peut vous aider.</p>
+      <a href="mailto:contact@kmigroup.fr" class="btn-white">Écrire à contact@kmigroup.fr</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Web By KMI</div>
+    <p class="footer-meta">Une marque de KMI Group — Création de sites web · Occitanie, France</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var nav = document.getElementById('site-nav');
+  var toggleNav = function () { nav.classList.toggle('is-scrolled', window.scrollY > 4); };
+  toggleNav();
+  window.addEventListener('scroll', toggleNav, { passive: true });
+
+  var revealTargets = document.querySelectorAll('[data-reveal]');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealTargets.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealTargets.forEach(function (el) { observer.observe(el); });
+  }
+})();
+</script>
+
 </body>
 </html>
