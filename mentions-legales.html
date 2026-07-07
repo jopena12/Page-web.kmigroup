@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mentions légales — Web By KMI</title>
 <meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -34,9 +38,11 @@
     border-bottom:1px solid #EEF0F4;
   }
   .wordmark{
-    display:flex; align-items:baseline; gap:7px; text-decoration:none;
+    display:flex; align-items:center; gap:10px; text-decoration:none;
     font-size:19px; font-weight:800; letter-spacing:-0.02em;
   }
+  .wordmark-icon{ display:block; width:30px; height:30px; }
+  .wordmark-text{ display:flex; align-items:baseline; gap:7px; }
   .wordmark .kmi{ color:var(--accent); }
   .pill-link{
     display:flex; align-items:center; gap:6px;
@@ -72,7 +78,10 @@
 <body>
 
   <header class="site-header">
-    <a href="index.html" class="wordmark"><span>Web By</span><span class="kmi">KMI</span></a>
+    <a href="index.html" class="wordmark">
+      <img src="assets/logo-icon.png" alt="" class="wordmark-icon" width="30" height="30">
+      <span class="wordmark-text"><span>Web By</span><span class="kmi">KMI</span></span>
+    </a>
     <a href="https://kmigroup.fr" class="pill-link">
       <span aria-hidden="true">←</span> Retour à KMI Group
     </a>
